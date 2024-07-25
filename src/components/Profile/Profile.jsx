@@ -1,35 +1,46 @@
-import css from "./Profile.module.css"
+import clsx from "clsx";
+import { RiRadioButtonLine } from "react-icons/ri";
+import { CiWifiOff } from "react-icons/ci";
 
+import iconReact from "../../assets/react.svg";
 
-function Profile({ name, tag, location, image, stats: { followers, views, likes} }) {
-    return (
-    <div className={css.container}>
-      <div className={css.profileContainer}>
-        <img className={css.profileAvatar} src={image} alt={`${name} avatar`} />
-        <p className={css.username}>{name}</p>
-        <p className={css.text}>@{tag}</p>
-        <p className={css.text}>{location}</p>
-      </div>
-    
-      <ul className={css.statsList}>
-        <li className={css.statsItem}>
-          <span className={css.statsTitle}>Followers</span>
-          <span className={css.statsValue}>{followers}</span>
-        </li>
-        <li className={css.statsItem}>
-          <span className={css.statsTitle}>Views</span>
-          <span className={css.statsValue}>{views}</span>
-        </li>
-        <li className={css.statsItem}>
-          <span className={css.statsTitle}>Likes</span>
-          <span className={css.statsValue}>{likes}</span>
-        </li>
-      </ul>
+import css from "./Profile.module.css";
+
+const Profile = ({
+  name,
+  phone,
+  email,
+  status = "offline",
+  hasPhisicalAddress,
+  handleClick,
+}) => {
+
+  return (
+    <div
+      className={clsx(
+        css.profile,
+        hasPhisicalAddress && css.hasPhisicalAddress
+      )}
+    >
+      <img src={iconReact} alt="" />
+      <h2 className={css.title}>
+        Name: {name} {hasPhisicalAddress ? "🏡" : ""}
+      </h2>
+      <p className={css.fieldRow}>Phone: {phone}</p>
+      <p className={css.fieldRow}>Email: {email}</p>
+      <p
+        className={clsx(css.fieldRow, {
+          [css.online]: status === "online",
+          [css.offline]: status === "offline",
+        })}
+      >
+        Status: {status === "online" ? <RiRadioButtonLine /> : <CiWifiOff />}{" "}
+      </p>
+      <button type="button" onClick={() => handleClick(name)}>
+        Click to Alert
+      </button>
     </div>
-)   
-}
+  );
+};
+
 export default Profile;
-
-
-
-
